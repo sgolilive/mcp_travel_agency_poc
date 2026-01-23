@@ -102,5 +102,3 @@ Once the browser opens, ensure these values are set:
 * When using HTTP, ensure your FastAPI app has **CORS** middleware enabled to allow the Inspector to communicate with it.
 
 ---
-
-**Would you like me to add a specific section describing the "Airport Transfers" tool or the parameters it expects?**
