@@ -1,0 +1,9 @@
+mcp
+fastmcp
+pydantic
+python-dotenv
+pymongo
+uvicorn
+fastapi
+mcp.client
+langchain-mcp-adapters
