@@ -1,20 +1,22 @@
 from mcp.server.fastmcp import FastMCP
 from dotenv import load_dotenv
 
-from data_generator.airport_transfers import AirportTransfers
-from data_generator.flights import Flights
-from data_generator.hotels import Hotels
-from data_generator.local_attractions import LocalAttractions
+from db.airport_xfer_mongo_client import XferMongoClient
+from db.attractions_mongo_client import AttractionsMongoClient
+from db.flights_mongo_client import FlightsMongoClient
+from db.hotels_mongo_client import HotelsMongoClient
+from db.hubs_mongo_client import HubsMongoClient
 from tools.travel_service import TravelServiceDeps, TravelService
 
 load_dotenv(verbose=True)
 
 def get_deps():
-    flights = Flights()
-    hotels = Hotels()
-    xfers = AirportTransfers()
-    attractions = LocalAttractions()
-    return TravelServiceDeps(flights=flights, hotels=hotels, mcp=FastMCP(name="travel_agency"), attractions=attractions, transfers=xfers)
+    hubs = HubsMongoClient()
+    flights = FlightsMongoClient()
+    hotels = HotelsMongoClient()
+    xfers = XferMongoClient()
+    attractions = AttractionsMongoClient()
+    return TravelServiceDeps(hubs=hubs, flights=flights, hotels=hotels, mcp=FastMCP(name="travel_agency"), attractions=attractions, transfers=xfers)
 
 # use the following logic for stdio for console testing
 # Run the inspector pointing to your local HTTP endpoint

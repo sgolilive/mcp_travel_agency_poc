@@ -8,11 +8,12 @@ from bson import ObjectId
 from mcp.server import FastMCP
 from pydantic import Field
 
-from data_generator.airport_transfers import AirportTransfers
-from data_generator.flights import Flights
-from data_generator.hotels import Hotels
-from data_generator.local_attractions import LocalAttractions
-from data_generator.itineraries import Itineraries
+from db.airport_xfer_mongo_client import XferMongoClient
+from db.attractions_mongo_client import AttractionsMongoClient
+from db.flights_mongo_client import FlightsMongoClient
+from db.hotels_mongo_client import HotelsMongoClient
+from db.hubs_mongo_client import HubsMongoClient
+from db.itinerary_mongo_client import ItineraryMongoClient
 from entities.attraction import Attraction
 from entities.flight import Flight
 from entities.hotel import Hotel
@@ -24,20 +25,22 @@ from validators.entity_validator import validate_entity
 from validators.hotel_validator import validate_hotel_room_type
 from validators.property_validators import CustomerName, IATAcode, DateTime, TripId
 from validators.xfer_validator import validate_xfer
-
+from logger import get_logger
 
 @dataclasses.dataclass
 class TravelServiceDeps:
-    hotels: Hotels = field(default_factory=Hotels)
-    flights: Flights = field(default_factory=Flights)
-    itineraries: Itineraries = field(default_factory=Itineraries)
-    attractions: LocalAttractions = field(default_factory=LocalAttractions)
-    transfers: AirportTransfers = field(default_factory=AirportTransfers)
+    hubs: HubsMongoClient = field(default_factory=HubsMongoClient)
+    hotels: HotelsMongoClient = field(default_factory=HotelsMongoClient)
+    flights: FlightsMongoClient = field(default_factory=FlightsMongoClient)
+    itineraries: ItineraryMongoClient = field(default_factory=ItineraryMongoClient)
+    attractions: AttractionsMongoClient = field(default_factory=AttractionsMongoClient)
+    transfers: XferMongoClient = field(default_factory=XferMongoClient)
     mcp: FastMCP = field(default_factory=FastMCP)
 
 class TravelService:
     def __init__(self, deps: TravelServiceDeps):
         self.deps = deps
+        self.logger = get_logger(__name__)
 
     @mcp_tool
     @standard_response
@@ -119,8 +122,6 @@ class TravelService:
                 "--------------------------"
             )
             response.append(line)
-
-        #response.append(f'trip id: {trip_id}')
 
         return "\n".join(response)
 

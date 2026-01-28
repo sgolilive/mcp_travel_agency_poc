@@ -1,12 +1,11 @@
 from datetime import datetime
 from typing import Any
+from db.mongo_client import TravelMongoClient
 
-from data_generator.mongo_client import TravelMongoClient
 
-
-class Itineraries(TravelMongoClient):
+class ItineraryMongoClient(TravelMongoClient):
     def __init__(self):
-        super().__init__('itineraries')
+        super().__init__('itinerary')
 
     def save_itineraries(self, trip_id: str, fields_to_update: dict[Any, Any]):
         fields_to_update.update({"last_updated": datetime.now()})
@@ -15,6 +14,3 @@ class Itineraries(TravelMongoClient):
             {'$set': fields_to_update},
             upsert=True
         )
-
-    # def find_trip(self, trip_id: str):
-    #     return self.collection.find_one({'_id': trip_id})
