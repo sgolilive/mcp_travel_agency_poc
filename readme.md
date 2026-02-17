@@ -1,9 +1,3 @@
-That’s a great idea! Since you’ve already figured out the tricky parts of the setup (especially the `PYTHONPATH` and the specific Inspector settings), putting them in a `README.md` will save you—and anyone else—a lot of headache later.
-
-Here is a structured, professional `README.md` based on the notes you provided.
-
----
-
 # MCP Server POC 🚀
 
 A Proof of Concept (POC) for a Model Context Protocol (MCP) server, featuring both **HTTP** and **STDIO** transport methods.
